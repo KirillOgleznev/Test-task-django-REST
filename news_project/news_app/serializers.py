@@ -11,9 +11,10 @@ class TypeNewsModelSerializer(serializers.ModelSerializer):
 class NewsModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = NewsModel
-        fields = ('id', 'name', 'short_description', 'full_description', 'type')
+        fields = '__all__'
 
 
+# Сериализатор добавляющий TypeNewsModel и скрывающий full_description
 class NewsReadModelSerializer(serializers.ModelSerializer):
     type = TypeNewsModelSerializer(read_only=True)
 

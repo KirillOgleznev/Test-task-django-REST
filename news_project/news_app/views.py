@@ -7,6 +7,7 @@ from .serializers import NewsModelSerializer, TypeNewsModelSerializer, NewsReadM
 class NewsModelAPIView(generics.ListCreateAPIView):
 
     def get_serializer_class(self):
+        # для GET запроса используется другой сериализатор
         if self.request.method in ('GET',):
             return NewsReadModelSerializer
         return NewsModelSerializer
