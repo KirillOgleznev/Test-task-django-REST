@@ -1,18 +1,23 @@
 from rest_framework import generics
 
 from .models import NewsModel, TypeNewsModel
-from .serializers import NewsModelSerializer, TypeNewsModelSerializer
+from .serializers import NewsModelSerializer, TypeNewsModelSerializer, NewsReadModelSerializer
 
 
 class NewsModelAPIView(generics.ListCreateAPIView):
-    queryset = NewsModel.objects.all()
     serializer_class = NewsModelSerializer
 
-    # def list(self, request, *args, **kwargs):
-    #     objects = NewsModel.objects.get(username="moeedlodhi")
-    #     serialized = self.get_serializer(objects)
-    #     print('listing a model here')
-    #     return Response({"data": serialized.data})
+    def get_serializer_class(self):
+        if self.request.method in ('GET',):
+            return NewsReadModelSerializer
+        return NewsModelSerializer
+
+    def get_queryset(self):
+        queryset = NewsModel.objects.all()
+        type_news = self.request.query_params.get('id')
+        if type_news is not None:
+            queryset = queryset.filter(type=type_news)
+        return queryset
 
 
 class NewsModelAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
