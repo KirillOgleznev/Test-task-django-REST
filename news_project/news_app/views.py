@@ -5,7 +5,6 @@ from .serializers import NewsModelSerializer, TypeNewsModelSerializer, NewsReadM
 
 
 class NewsModelAPIView(generics.ListCreateAPIView):
-    serializer_class = NewsModelSerializer
 
     def get_serializer_class(self):
         if self.request.method in ('GET',):
